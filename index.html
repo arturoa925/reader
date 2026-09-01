@@ -282,6 +282,11 @@
   .toast.show { opacity: 1; transform: translateX(-50%) scale(1); }
 
   footer { padding: 14px; text-align: center; font-size: 11.5px; color: var(--label-3); }
+
+  /* Reference results sheet */
+  .refList { max-height: 50vh; overflow-y: auto; margin: 0 -16px 10px; }
+  .refList .row { padding: 11px 16px; }
+  .lineContent .hljs-symbolHit { background: rgba(10,132,255,0.16); }
 </style>
 </head>
 <body>
@@ -295,6 +300,13 @@
   <button class="sheetBtn primary" id="btnCopyClaude">Copy for Claude</button>
   <button class="sheetBtn secondary" id="btnCopySel">Copy</button>
   <button class="sheetBtn plain" id="btnClearSel">Clear selection</button>
+</div>
+<div class="sheetScrim" id="refScrim"></div>
+<div class="sheet" id="refSheet">
+  <div class="sheetHandle"></div>
+  <div class="sheetLabel" id="refLabel">Results</div>
+  <div class="refList" id="refList"></div>
+  <button class="sheetBtn secondary" id="btnCloseRef">Close</button>
 </div>
 <div class="toast" id="toast"></div>
 
@@ -794,7 +806,71 @@ function renderFile() {
 
   try { pre.querySelectorAll('code').forEach(el => hljs.highlightElement(el)); } catch (e) {}
   updateSelectionUI();
+
+  pre.addEventListener('dblclick', onWordDblClick);
 }
+
+/* ---------------- Find references (symbol search) ---------------- */
+
+function onWordDblClick() {
+  const sel = window.getSelection();
+  const word = sel && sel.toString().trim();
+  if (!word || /\s/.test(word) || word.length < 2) return;
+  findReferences(word);
+}
+
+async function findReferences(word) {
+  if (!state.token) { toast('Add a token in Settings to search code'); return; }
+  toast('Searching “' + word + '”…');
+  try {
+    const q = encodeURIComponent(`${word} in:file repo:${state.owner}/${state.repo}`);
+    const res = await gh(`/search/code?q=${q}&per_page=50`);
+    showReferenceResults(word, res.items || []);
+  } catch (e) {
+    toast(e.message || 'Search failed');
+  }
+}
+
+function showReferenceResults(word, items) {
+  const sheet = $('#refSheet');
+  const scrim = $('#refScrim');
+  const list = $('#refList');
+  $('#refLabel').textContent = items.length
+    ? `${items.length} file${items.length === 1 ? '' : 's'} matching “${word}”`
+    : `No matches for “${word}”`;
+
+  list.innerHTML = '';
+  const group = document.createElement('div');
+  group.className = 'listGroup';
+  items.forEach(item => {
+    const row = document.createElement('div');
+    row.className = 'row file';
+    row.innerHTML = `<span class="glyph">${icon('doc', 17)}</span><span class="name">${item.path}</span><span class="chev">${icon('chevronRight', 15)}</span>`;
+    row.onclick = () => { closeRefSheet(); openFileAndJump(item.path, word); };
+    group.appendChild(row);
+  });
+  if (items.length) list.appendChild(group);
+
+  sheet.classList.add('show');
+  scrim.classList.add('show');
+}
+
+function closeRefSheet() {
+  $('#refSheet').classList.remove('show');
+  $('#refScrim').classList.remove('show');
+}
+
+async function openFileAndJump(path, word) {
+  await openFile(path);
+  const idx = state.fileLines.findIndex(l => l.includes(word));
+  if (idx === -1) return;
+  toggleLineSelection(idx);
+  const rowEl = document.querySelector(`.lineRow[data-line="${idx}"]`);
+  if (rowEl) rowEl.scrollIntoView({ block: 'center' });
+}
+
+$('#refScrim').onclick = closeRefSheet;
+$('#btnCloseRef').onclick = closeRefSheet;
 
 function toggleLineSelection(idx) {
   const sel = state.selection;
