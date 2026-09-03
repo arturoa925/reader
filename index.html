@@ -73,13 +73,13 @@
 
   .navBtn {
     background: none; border: none; color: var(--blue); font-size: 17px;
-    padding: 8px 10px; cursor: pointer; display: flex; align-items: center; gap: 4px;
-    border-radius: 8px; line-height: 1;
+    padding: 8px 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px;
+    border-radius: 8px; line-height: 1; min-width: 44px; min-height: 44px; touch-action: manipulation;
   }
   .navBtn:active { opacity: 0.4; }
   .navBtn:disabled { opacity: 0.25; }
   .navBtn svg { display: block; }
-  .navBtn.label { font-size: 15px; font-weight: 400; }
+  .navBtn.label { font-size: 15px; font-weight: 400; min-width: auto; }
 
   .iosSwitch {
     width: 51px; height: 31px; border-radius: 16px; background: var(--gray5);
@@ -126,6 +126,7 @@
   .sidebar {
     width: 280px; flex: none; background: var(--cell-bg); overflow-y: auto;
     border-right: 0.5px solid var(--separator); -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
   }
   @media (max-width: 899px) {
     .sidebar {
@@ -148,8 +149,8 @@
 
   .treeNode { user-select: none; }
   .treeRow {
-    display: flex; align-items: center; gap: 6px; padding: 7px 10px; cursor: pointer;
-    font-size: 13.5px; border-radius: 6px; margin: 1px 6px;
+    display: flex; align-items: center; gap: 6px; padding: 9.5px 10px; cursor: pointer;
+    font-size: 13.5px; border-radius: 6px; margin: 1px 6px; touch-action: manipulation;
   }
   .treeRow:active { background: rgba(255,255,255,0.08); }
   .treeRow.activeFile { background: rgba(10,132,255,0.22); }
@@ -161,7 +162,7 @@
   .treeChildren { overflow: hidden; }
 
   .content { flex: 1; min-width: 0; display: flex; flex-direction: column; overflow: hidden; }
-  .contentScroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+  .contentScroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
 
   .setupWrap { max-width: 480px; margin: 0 auto; padding: 8px 0 40px; }
   .groupLabel { font-size: 13px; color: var(--label-2); padding: 18px 16px 6px; text-transform: uppercase; letter-spacing: 0.02em; }
@@ -235,7 +236,7 @@
   }
   .sheet.show { transform: translateY(0); }
   .sheetHandle { width: 36px; height: 5px; border-radius: 3px; background: var(--gray5); margin: 0 auto 12px; flex: none; }
-  .sheetInner { padding: 0 16px; overflow-y: auto; }
+  .sheetInner { padding: 0 16px; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
   .sheetLabel { font-size: 13px; color: var(--label-2); font-family: var(--mono-font); text-align: center; margin-bottom: 12px; }
   .sheetBtn { width: 100%; padding: 13px; border-radius: 12px; border: none; font-size: 17px; font-weight: 600; cursor: pointer; margin-bottom: 8px; font-family: var(--ui-font); }
   .sheetBtn.primary { background: var(--blue); color: #fff; }
@@ -250,7 +251,7 @@
   .sheetSearchField input { flex: 1; background: none; border: none; outline: none; color: var(--label); font-size: 16px; font-family: var(--ui-font); }
   .sheetSearchField input::placeholder { color: var(--label-3); }
   .sheetSectionLabel { font-size: 12px; color: var(--label-2); text-transform: uppercase; letter-spacing: 0.02em; padding: 10px 2px 4px; }
-  .symbolRow { display: flex; align-items: center; gap: 10px; padding: 9px 4px; cursor: pointer; border-radius: 8px; }
+  .symbolRow { display: flex; align-items: center; gap: 10px; padding: 10.5px 4px; cursor: pointer; border-radius: 8px; touch-action: manipulation; }
   .symbolRow:active { background: rgba(255,255,255,0.08); }
   .symbolRow .badge {
     width: 22px; height: 22px; border-radius: 6px; flex: none; display: flex; align-items: center; justify-content: center;
@@ -389,7 +390,7 @@ const state = {
   expandedDirs: new Set(),
   currentPath: '', fileLines: [],
   selection: { start: null, end: null },
-  recents: [], filterQuery: '', wrap: false,
+  recents: [], filterQuery: '', wrap: true,
   sidebarOpen: false,
   symbolIndex: {}, // path -> symbols[]
   lastOwnerInput: ''
@@ -474,6 +475,8 @@ function ancestorPaths(path) {
 function render() {
   renderHeader();
   renderMain();
+  const footerEl = $('#footerEl');
+  if (footerEl) footerEl.style.display = state.view === 'setup' ? '' : 'none';
 }
 
 function renderHeader() {
@@ -744,6 +747,7 @@ async function openRepo(owner, repo, branch) {
     state.currentPath = ''; state.fileLines = [];
     state.symbolIndex = {};
     state.view = 'workspace'; state.filterQuery = '';
+    state.sidebarOpen = true; // land on the file tree, not an empty pane behind a closed drawer
     if (!state.recents.find(r => r.owner === owner && r.repo === repo)) {
       state.recents.unshift({ owner, repo });
       state.recents = state.recents.slice(0, 6);
@@ -769,7 +773,7 @@ function renderWorkspace() {
 
   const sbHeader = document.createElement('div');
   sbHeader.className = 'sidebarHeader';
-  sbHeader.innerHTML = `<div class="sidebarTitle"><span class="name">${state.repo}</span><button class="navBtn" id="settingsBtn" style="padding:4px;">${icon('gear', 18)}</button></div>`;
+  sbHeader.innerHTML = `<div class="sidebarTitle"><span class="name">${state.repo}</span><button class="navBtn" id="settingsBtn">${icon('gear', 18)}</button></div>`;
   const chips = document.createElement('div');
   chips.className = 'repoChips';
   state.recents.forEach(r => {
@@ -1152,7 +1156,7 @@ async function runRepoSearch(q) {
 render();
 </script>
 
-<footer>reads public and token-authorized repos via the GitHub API · nothing is stored server-side</footer>
+<footer id="footerEl">reads public and token-authorized repos via the GitHub API · nothing is stored server-side</footer>
 
 </body>
 </html>
