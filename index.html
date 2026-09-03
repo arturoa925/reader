@@ -19,13 +19,17 @@
     --cell-bg: #1c1c1e;
     --cell-bg-2: #2c2c2e;
     --separator: rgba(84,84,88,0.65);
-    --opaque-separator: #38383a;
     --label: #ffffff;
     --label-2: rgba(235,235,245,0.6);
     --label-3: rgba(235,235,245,0.3);
     --blue: #0a84ff;
     --green: #30d158;
     --red: #ff453a;
+    --purple: #bf5af2;
+    --orange: #ff9f0a;
+    --yellow: #ffd60a;
+    --teal: #64d2ff;
+    --pink: #ff375f;
     --gray5: #2c2c2e;
     --gray6: #1c1c1e;
     --code-size: 15px;
@@ -55,21 +59,16 @@
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     border-bottom: 0.5px solid var(--separator);
   }
-  .navRow {
-    display: flex; align-items: center; min-height: 44px; padding: 0 6px;
-    position: relative;
-  }
+  .navRow { display: flex; align-items: center; min-height: 44px; padding: 0 6px; }
   .navSide { display: flex; align-items: center; gap: 2px; min-width: 44px; flex: none; }
   .navSide.trailing { justify-content: flex-end; }
   .navTitle {
     flex: 1; text-align: center; font-size: 17px; font-weight: 600;
     letter-spacing: -0.01em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-    padding: 0 4px;
+    padding: 0 4px; font-family: var(--mono-font);
   }
   .largeTitleWrap { padding: 2px 16px 10px; }
-  .largeTitle {
-    font-size: 30px; font-weight: 750; letter-spacing: -0.021em; line-height: 1.1;
-  }
+  .largeTitle { font-size: 30px; font-weight: 750; letter-spacing: -0.021em; line-height: 1.1; font-family: var(--ui-font); }
   .largeSubtitle { font-size: 14px; color: var(--label-2); margin-top: 3px; }
 
   .navBtn {
@@ -78,10 +77,10 @@
     border-radius: 8px; line-height: 1;
   }
   .navBtn:active { opacity: 0.4; }
+  .navBtn:disabled { opacity: 0.25; }
   .navBtn svg { display: block; }
   .navBtn.label { font-size: 15px; font-weight: 400; }
 
-  /* iOS toggle switch */
   .iosSwitch {
     width: 51px; height: 31px; border-radius: 16px; background: var(--gray5);
     border: none; position: relative; cursor: pointer; flex: none; padding: 0;
@@ -95,59 +94,11 @@
   }
   .iosSwitch.on .knob { transform: translateX(20px); }
 
-  /* Stepper (font size) */
-  .iosStepper {
-    display: flex; align-items: center; background: var(--gray5); border-radius: 8px; overflow: hidden;
-  }
-  .iosStepper button {
-    background: none; border: none; color: var(--blue); width: 34px; height: 32px;
-    font-size: 17px; cursor: pointer; font-family: var(--ui-font);
-  }
+  .iosStepper { display: flex; align-items: center; background: var(--gray5); border-radius: 8px; overflow: hidden; }
+  .iosStepper button { background: none; border: none; color: var(--blue); width: 34px; height: 32px; font-size: 17px; cursor: pointer; font-family: var(--ui-font); }
   .iosStepper button:active { background: rgba(255,255,255,0.08); }
   .iosStepper .div { width: 0.5px; background: var(--separator); height: 20px; }
 
-  /* Path bar (breadcrumbs) */
-  .pathBar {
-    display: flex; align-items: center; gap: 2px; overflow-x: auto; scrollbar-width: none;
-    padding: 0 12px 8px; -webkit-overflow-scrolling: touch;
-  }
-  .pathBar::-webkit-scrollbar { display: none; }
-  .pathBar button {
-    background: none; border: none; color: var(--label-2); font-size: 13px;
-    padding: 4px 2px; cursor: pointer; font-family: var(--ui-font); white-space: nowrap; flex: none;
-  }
-  .pathBar button:last-child { color: var(--label); font-weight: 600; }
-  .pathBar .chev { color: var(--label-3); flex: none; display: flex; }
-
-  /* Quick switch chips */
-  .quickSwitch {
-    display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none;
-    padding: 0 12px 10px; -webkit-overflow-scrolling: touch;
-  }
-  .quickSwitch::-webkit-scrollbar { display: none; }
-  .quickSwitch:empty { display: none; }
-  .quickSwitch .chip {
-    flex: none; background: var(--gray6); border: 0.5px solid var(--separator); border-radius: 14px;
-    padding: 5px 12px; font-size: 12.5px; font-family: var(--mono-font); color: var(--label-2);
-    cursor: pointer; white-space: nowrap;
-  }
-  .quickSwitch .chip.active { color: #fff; background: var(--blue); border-color: var(--blue); }
-  .quickSwitch .chip:active { opacity: 0.6; }
-
-  /* Search field */
-  .searchWrap { padding: 0 16px 10px; }
-  .searchField {
-    background: var(--gray6); border-radius: 10px; padding: 8px 10px;
-    display: flex; align-items: center; gap: 6px;
-  }
-  .searchField svg { flex: none; color: var(--label-3); }
-  .searchField input {
-    flex: 1; background: none; border: none; outline: none; color: var(--label);
-    font-size: 16px; font-family: var(--ui-font);
-  }
-  .searchField input::placeholder { color: var(--label-3); }
-
-  /* Secondary toolbar (file view) */
   .subToolbar {
     display: flex; align-items: center; justify-content: space-between; gap: 10px;
     padding: 8px 14px; background: rgba(28,28,30,0.9);
@@ -156,25 +107,68 @@
   }
   .subToolbar .grp { display: flex; align-items: center; gap: 10px; }
   .subToolbar .swLabel { font-size: 13px; color: var(--label-2); }
+  .breadcrumbLine {
+    padding: 6px 14px; font-size: 12px; color: var(--label-2); font-family: var(--mono-font);
+    overflow-x: auto; white-space: nowrap; scrollbar-width: none;
+    border-bottom: 0.5px solid var(--separator); background: rgba(28,28,30,0.6);
+  }
+  .breadcrumbLine::-webkit-scrollbar { display: none; }
+  .breadcrumbLine span.seg { cursor: pointer; }
+  .breadcrumbLine span.seg:active { color: var(--blue); }
+  .breadcrumbLine span.sep { color: var(--label-3); margin: 0 3px; }
 
-  /* ---------- Main ---------- */
-  main { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+  /* ---------- Workspace layout ---------- */
+  .workspace { flex: 1; display: flex; min-height: 0; }
+  .sidebarScrim {
+    position: fixed; inset: 0; background: rgba(0,0,0,0); z-index: 24; pointer-events: none; transition: background 0.2s;
+  }
+  .sidebarScrim.show { background: rgba(0,0,0,0.5); pointer-events: auto; }
+  .sidebar {
+    width: 280px; flex: none; background: var(--cell-bg); overflow-y: auto;
+    border-right: 0.5px solid var(--separator); -webkit-overflow-scrolling: touch;
+  }
+  @media (max-width: 899px) {
+    .sidebar {
+      position: fixed; top: 0; bottom: 0; left: 0; z-index: 25;
+      width: 84vw; max-width: 320px; padding-top: var(--safe-top);
+      transform: translateX(-100%); transition: transform 0.25s cubic-bezier(.32,.72,0,1);
+    }
+    .sidebar.open { transform: translateX(0); }
+  }
+  .sidebarHeader { padding: 12px 14px 8px; border-bottom: 0.5px solid var(--separator); }
+  .sidebarTitle { display: flex; align-items: center; justify-content: space-between; }
+  .sidebarTitle .name { font-size: 15px; font-weight: 700; font-family: var(--mono-font); }
+  .repoChips { display: flex; gap: 6px; overflow-x: auto; margin-top: 8px; scrollbar-width: none; }
+  .repoChips::-webkit-scrollbar { display: none; }
+  .repoChips .chip {
+    flex: none; background: var(--gray6); border: 0.5px solid var(--separator); border-radius: 12px;
+    padding: 4px 10px; font-size: 11.5px; font-family: var(--mono-font); color: var(--label-2); cursor: pointer; white-space: nowrap;
+  }
+  .repoChips .chip.active { color: #fff; background: var(--blue); border-color: var(--blue); }
 
-  /* Setup screen */
+  .treeNode { user-select: none; }
+  .treeRow {
+    display: flex; align-items: center; gap: 6px; padding: 7px 10px; cursor: pointer;
+    font-size: 13.5px; border-radius: 6px; margin: 1px 6px;
+  }
+  .treeRow:active { background: rgba(255,255,255,0.08); }
+  .treeRow.activeFile { background: rgba(10,132,255,0.22); }
+  .treeRow .disclosure { width: 14px; height: 14px; flex: none; display: flex; align-items: center; justify-content: center; color: var(--label-3); transition: transform 0.15s; }
+  .treeRow .disclosure.expanded { transform: rotate(90deg); }
+  .treeRow .glyph { width: 16px; height: 16px; flex: none; display: flex; align-items: center; justify-content: center; color: var(--blue); }
+  .treeRow.file .glyph { color: var(--label-3); }
+  .treeRow .name { font-family: var(--mono-font); font-size: 13.5px; color: var(--label); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .treeChildren { overflow: hidden; }
+
+  .content { flex: 1; min-width: 0; display: flex; flex-direction: column; overflow: hidden; }
+  .contentScroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+
   .setupWrap { max-width: 480px; margin: 0 auto; padding: 8px 0 40px; }
-  .groupLabel {
-    font-size: 13px; color: var(--label-2); padding: 18px 16px 6px; text-transform: uppercase;
-    letter-spacing: 0.02em;
-  }
-  .group {
-    background: var(--cell-bg); border-radius: 12px; margin: 0 16px; overflow: hidden;
-  }
+  .groupLabel { font-size: 13px; color: var(--label-2); padding: 18px 16px 6px; text-transform: uppercase; letter-spacing: 0.02em; }
+  .group { background: var(--cell-bg); border-radius: 12px; margin: 0 16px; overflow: hidden; }
   .cell { padding: 12px 14px; border-bottom: 0.5px solid var(--separator); }
   .cell:last-child { border-bottom: none; }
-  .cell input {
-    width: 100%; background: none; border: none; outline: none; color: var(--label);
-    font-size: 16px; font-family: var(--ui-font);
-  }
+  .cell input { width: 100%; background: none; border: none; outline: none; color: var(--label); font-size: 16px; font-family: var(--ui-font); }
   .cell input::placeholder { color: var(--label-3); }
   .cellHint { font-size: 12px; color: var(--label-2); padding: 8px 16px 0; line-height: 1.5; }
   .fillBtn {
@@ -183,57 +177,40 @@
     padding: 13px 16px; font-size: 17px; font-weight: 600; cursor: pointer; text-align: center;
   }
   .fillBtn:active { opacity: 0.7; }
-  .fillBtn:disabled { opacity: 0.4; }
-  .plainCell {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 13px 14px; cursor: pointer;
-  }
+  .plainCell { display: flex; align-items: center; justify-content: space-between; padding: 13px 14px; cursor: pointer; }
   .plainCell:active { background: rgba(255,255,255,0.06); }
   .plainCell .t { font-size: 16px; color: var(--label); font-family: var(--mono-font); }
   .plainCell .chev { color: var(--label-3); display: flex; }
 
-  /* Lists */
   .listGroup { background: var(--cell-bg); border-radius: 12px; margin: 8px 16px 20px; overflow: hidden; }
-  .row {
-    display: flex; align-items: center; gap: 10px;
-    padding: 11px 14px; border-bottom: 0.5px solid var(--separator);
-    cursor: pointer;
-  }
+  .row { display: flex; align-items: center; gap: 10px; padding: 11px 14px; border-bottom: 0.5px solid var(--separator); cursor: pointer; }
   .row:last-child { border-bottom: none; }
   .row:active { background: rgba(255,255,255,0.06); }
   .row .glyph { width: 22px; height: 22px; flex: none; display: flex; align-items: center; justify-content: center; color: var(--blue); }
-  .row.dir .glyph { color: var(--blue); }
-  .row.file .glyph { color: var(--label-3); }
   .row .name { font-family: var(--mono-font); font-size: 15px; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--label); }
   .row .meta { font-size: 12.5px; color: var(--label-3); flex: none; }
   .row .chev { color: var(--label-3); flex: none; display: flex; }
 
-  .emptyState { padding: 60px 24px; text-align: center; color: var(--label-2); font-size: 15px; line-height: 1.6; }
+  .emptyState { padding: 60px 24px; text-align: center; color: var(--label-2); font-size: 15px; line-height: 1.6; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .emptyState svg { color: var(--label-3); }
   .spinner { padding: 50px; text-align: center; color: var(--label-2); font-size: 14px; }
-  .errorBox {
-    margin: 16px; padding: 13px 15px; background: rgba(255,69,58,0.12);
-    border-radius: 12px; color: #ff8a80; font-size: 14px; line-height: 1.55;
-  }
+  .errorBox { margin: 16px; padding: 13px 15px; background: rgba(255,69,58,0.12); border-radius: 12px; color: #ff8a80; font-size: 14px; line-height: 1.55; }
 
-  /* Code viewer */
   .codeScroll { overflow-x: auto; background: #000; }
   .codeScroll.wrap pre code { white-space: pre-wrap; word-break: break-word; }
-  pre {
-    margin: 0; padding: 10px 0 90px;
-    font-family: var(--mono-font); font-size: var(--code-size); line-height: 1.6;
-  }
+  pre { margin: 0; padding: 10px 0 90px; font-family: var(--mono-font); font-size: var(--code-size); line-height: 1.6; }
   code.hljs { background: none !important; padding: 0 !important; color: var(--label); }
   .lineRow { display: flex; user-select: text; }
   .lineRow.selected { background: rgba(10,132,255,0.16); }
-  .lineNum {
-    flex: none; width: 42px; text-align: right; padding-right: 12px;
-    color: var(--label-3); user-select: none; -webkit-user-select: none;
-    font-size: calc(var(--code-size) - 2px);
+  .lineRow.flash { animation: flashLine 1.1s ease-out; }
+  @keyframes flashLine {
+    0% { background: rgba(255,214,10,0.35); }
+    100% { background: transparent; }
   }
+  .lineNum { flex: none; width: 42px; text-align: right; padding-right: 12px; color: var(--label-3); user-select: none; -webkit-user-select: none; font-size: calc(var(--code-size) - 2px); }
   .lineContent { flex: 1; padding-right: 16px; white-space: pre; }
   .codeScroll.wrap .lineContent { white-space: pre-wrap; word-break: break-word; }
 
-  /* Xcode-like syntax palette */
   .hljs-keyword, .hljs-built_in, .hljs-name { color: #ff7ab2; }
   .hljs-string, .hljs-regexp { color: #ff8170; }
   .hljs-comment, .hljs-quote { color: #7f8c98; font-style: italic; }
@@ -246,47 +223,53 @@
   .hljs-deletion { color: #ff453a; }
   .hljs-addition { color: #30d158; }
 
-  /* Action sheet (selection bar) */
-  .sheetScrim {
-    position: fixed; inset: 0; background: rgba(0,0,0,0); z-index: 40;
-    pointer-events: none; transition: background 0.2s;
-  }
+  .sheetScrim { position: fixed; inset: 0; background: rgba(0,0,0,0); z-index: 40; pointer-events: none; transition: background 0.2s; }
   .sheetScrim.show { background: rgba(0,0,0,0.4); pointer-events: auto; }
   .sheet {
-    position: fixed; left: 0; right: 0; bottom: 0; z-index: 41;
-    background: rgba(28,28,30,0.96);
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 41; max-height: 78vh; display: flex; flex-direction: column;
+    background: rgba(28,28,30,0.97);
     backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
     border-radius: 16px 16px 0 0;
-    padding: 10px 16px calc(16px + var(--safe-bottom));
+    padding: 10px 0 calc(10px + var(--safe-bottom));
     transform: translateY(100%); transition: transform 0.25s cubic-bezier(.32,.72,0,1);
   }
   .sheet.show { transform: translateY(0); }
-  .sheetHandle { width: 36px; height: 5px; border-radius: 3px; background: var(--gray5); margin: 0 auto 12px; }
+  .sheetHandle { width: 36px; height: 5px; border-radius: 3px; background: var(--gray5); margin: 0 auto 12px; flex: none; }
+  .sheetInner { padding: 0 16px; overflow-y: auto; }
   .sheetLabel { font-size: 13px; color: var(--label-2); font-family: var(--mono-font); text-align: center; margin-bottom: 12px; }
-  .sheetBtn {
-    width: 100%; padding: 13px; border-radius: 12px; border: none; font-size: 17px; font-weight: 600;
-    cursor: pointer; margin-bottom: 8px; font-family: var(--ui-font);
-  }
+  .sheetBtn { width: 100%; padding: 13px; border-radius: 12px; border: none; font-size: 17px; font-weight: 600; cursor: pointer; margin-bottom: 8px; font-family: var(--ui-font); }
   .sheetBtn.primary { background: var(--blue); color: #fff; }
   .sheetBtn.secondary { background: var(--gray5); color: var(--label); }
   .sheetBtn.plain { background: none; color: var(--red); font-weight: 500; margin-bottom: 0; }
   .sheetBtn:active { opacity: 0.7; }
+  .sheetTitle { font-size: 17px; font-weight: 700; margin-bottom: 10px; }
+  .sheetSearchField {
+    background: var(--gray6); border-radius: 10px; padding: 9px 10px; display: flex; align-items: center; gap: 6px; margin-bottom: 10px;
+  }
+  .sheetSearchField svg { flex: none; color: var(--label-3); }
+  .sheetSearchField input { flex: 1; background: none; border: none; outline: none; color: var(--label); font-size: 16px; font-family: var(--ui-font); }
+  .sheetSearchField input::placeholder { color: var(--label-3); }
+  .sheetSectionLabel { font-size: 12px; color: var(--label-2); text-transform: uppercase; letter-spacing: 0.02em; padding: 10px 2px 4px; }
+  .symbolRow { display: flex; align-items: center; gap: 10px; padding: 9px 4px; cursor: pointer; border-radius: 8px; }
+  .symbolRow:active { background: rgba(255,255,255,0.08); }
+  .symbolRow .badge {
+    width: 22px; height: 22px; border-radius: 6px; flex: none; display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; color: #fff; font-family: var(--mono-font);
+  }
+  .symbolRow .name { font-family: var(--mono-font); font-size: 14.5px; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .symbolRow .lineNo { font-size: 12px; color: var(--label-3); flex: none; }
+  .symbolRow .path { font-size: 11.5px; color: var(--label-3); display: block; }
+  .searchHint { font-size: 12.5px; color: var(--label-2); padding: 6px 2px 2px; line-height: 1.5; }
 
   .toast {
     position: fixed; left: 50%; bottom: calc(28px + var(--safe-bottom)); transform: translateX(-50%) scale(0.95);
     background: rgba(28,28,30,0.92); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-    color: #fff; padding: 10px 18px; border-radius: 14px;
-    font-size: 14px; font-weight: 500; z-index: 50; opacity: 0; pointer-events: none;
+    color: #fff; padding: 10px 18px; border-radius: 14px; font-size: 14px; font-weight: 500; z-index: 50; opacity: 0; pointer-events: none;
     transition: opacity 0.2s, transform 0.2s;
   }
   .toast.show { opacity: 1; transform: translateX(-50%) scale(1); }
 
   footer { padding: 14px; text-align: center; font-size: 11.5px; color: var(--label-3); }
-
-  /* Reference results sheet */
-  .refList { max-height: 50vh; overflow-y: auto; margin: 0 -16px 10px; }
-  .refList .row { padding: 11px 16px; }
-  .lineContent .hljs-symbolHit { background: rgba(10,132,255,0.16); }
 </style>
 </head>
 <body>
@@ -294,51 +277,122 @@
 <header id="headerEl"></header>
 <main id="main"></main>
 <div class="sheetScrim" id="sheetScrim"></div>
-<div class="sheet" id="sheet">
-  <div class="sheetHandle"></div>
-  <div class="sheetLabel" id="sheetLabel">0 lines selected</div>
-  <button class="sheetBtn primary" id="btnCopyClaude">Copy for Claude</button>
-  <button class="sheetBtn secondary" id="btnCopySel">Copy</button>
-  <button class="sheetBtn plain" id="btnClearSel">Clear selection</button>
-</div>
-<div class="sheetScrim" id="refScrim"></div>
-<div class="sheet" id="refSheet">
-  <div class="sheetHandle"></div>
-  <div class="sheetLabel" id="refLabel">Results</div>
-  <div class="refList" id="refList"></div>
-  <button class="sheetBtn secondary" id="btnCloseRef">Close</button>
-</div>
+<div class="sheet" id="sheet"></div>
 <div class="toast" id="toast"></div>
 
 <script>
 /* ============================================================
-   Reader — a small, single-file GitHub code viewer styled after
-   iOS system UI. No build step, no framework.
+   Reader — a single-file, read-only GitHub browser styled after
+   iOS system UI, with a persistent file tree (VS Code / Xcode
+   navigator style) and a per-file symbol outline + repo-wide
+   definition search in place of true jump-to-definition (which
+   needs a real language server this file can't provide).
    ============================================================ */
 
-// Your GitHub username — pre-fills the setup screen so you don't retype it every time.
 const DEFAULT_OWNER = 'arturoa925';
 
 const ICONS = {
   chevronLeft: '<path d="M14.5 5.5l-6 6.5 6 6.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>',
-  chevronRight: '<path d="M8.5 5.5l6 6.5-6 6.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>',
+  chevronRight: '<path d="M8.5 5.5l6 6.5-6 6.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>',
   gear: '<circle cx="12" cy="12" r="3.2" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M12 3.5v2.3M12 18.2v2.3M20.5 12h-2.3M5.8 12H3.5M17.8 6.2l-1.6 1.6M7.8 16.2l-1.6 1.6M17.8 17.8l-1.6-1.6M7.8 7.8L6.2 6.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
   search: '<circle cx="10.5" cy="10.5" r="6" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M15 15l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
   folder: '<path d="M3.5 6.5a1 1 0 0 1 1-1h4.4l1.6 2h9a1 1 0 0 1 1 1v9.5a1 1 0 0 1-1 1h-15a1 1 0 0 1-1-1z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/>',
   doc: '<path d="M6.5 3.5h7l4 4v13a1 1 0 0 1-1 1h-10a1 1 0 0 1-1-1v-16a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/><path d="M13.2 3.5v4h4" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/>',
-  copy: '<rect x="8" y="8" width="12" height="13" rx="2.2" stroke="currentColor" stroke-width="1.7" fill="none"/><path d="M16 8V5.2A1.2 1.2 0 0 0 14.8 4H5.2A1.2 1.2 0 0 0 4 5.2v11.6A1.2 1.2 0 0 0 5.2 18H8" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linejoin="round"/>'
+  copy: '<rect x="8" y="8" width="12" height="13" rx="2.2" stroke="currentColor" stroke-width="1.7" fill="none"/><path d="M16 8V5.2A1.2 1.2 0 0 0 14.8 4H5.2A1.2 1.2 0 0 0 4 5.2v11.6A1.2 1.2 0 0 0 5.2 18H8" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linejoin="round"/>',
+  sidebar: '<rect x="3.5" y="4.5" width="17" height="15" rx="2.2" stroke="currentColor" stroke-width="1.7" fill="none"/><path d="M9.5 4.5v15" stroke="currentColor" stroke-width="1.7"/>',
+  braces: '<path d="M9 4c-2 0-2.6 1-2.6 2.6v2.6C6.4 10.6 5.6 11 4.5 11v2c1.1 0 1.9.4 1.9 1.8v2.6c0 1.6.6 2.6 2.6 2.6" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M15 4c2 0 2.6 1 2.6 2.6v2.6c0 1.4.8 1.8 1.9 1.8v2c-1.1 0-1.9.4-1.9 1.8v2.6c0 1.6-.6 2.6-2.6 2.6" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/>',
+  folderOpen: '<path d="M3.5 8.5V6.5a1 1 0 0 1 1-1h4.4l1.6 2h6a1 1 0 0 1 1 1v0" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/><path d="M3 9.8a1 1 0 0 1 1-.8h15.6a1 1 0 0 1 .97 1.24l-1.5 6a1 1 0 0 1-.97.76H4.5a1 1 0 0 1-1-1z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/>'
 };
 function icon(name, size) {
   size = size || 20;
   return `<svg width="${size}" height="${size}" viewBox="0 0 24 24">${ICONS[name] || ''}</svg>`;
 }
 
+const KIND_META = {
+  func:      { letter: 'f', color: '#0a84ff' },
+  init:      { letter: 'i', color: '#ff375f' },
+  class:     { letter: 'C', color: '#bf5af2' },
+  struct:    { letter: 'S', color: '#64d2ff' },
+  enum:      { letter: 'E', color: '#ff9f0a' },
+  protocol:  { letter: 'P', color: '#ffd60a' },
+  extension: { letter: 'x', color: '#98989d' },
+  interface: { letter: 'I', color: '#bf5af2' },
+  type:      { letter: 'T', color: '#64d2ff' }
+};
+
+const SYMBOL_PATTERNS = {
+  swift: [
+    { re: /\bfunc\s+([A-Za-z_][A-Za-z0-9_]*)/, kind: 'func' },
+    { re: /\bclass\s+([A-Za-z_][A-Za-z0-9_]*)/, kind: 'class' },
+    { re: /\bstruct\s+([A-Za-z_][A-Za-z0-9_]*)/, kind: 'struct' },
+    { re: /\benum\s+([A-Za-z_][A-Za-z0-9_]*)/, kind: 'enum' },
+    { re: /\bprotocol\s+([A-Za-z_][A-Za-z0-9_]*)/, kind: 'protocol' },
+    { re: /\bextension\s+([A-Za-z_][A-Za-z0-9_.]*)/, kind: 'extension' },
+    { re: /\binit\s*[?!]?\s*\(/, kind: 'init', nameOverride: 'init' }
+  ],
+  javascript: [
+    { re: /\bfunction\s+([A-Za-z_$][\w$]*)/, kind: 'func' },
+    { re: /\bclass\s+([A-Za-z_$][\w$]*)/, kind: 'class' },
+    { re: /\bconst\s+([A-Za-z_$][\w$]*)\s*=\s*(?:async\s*)?\(?[^=]*\)?\s*=>/, kind: 'func' },
+    { re: /\bconst\s+([A-Za-z_$][\w$]*)\s*=\s*(?:async\s*)?function/, kind: 'func' }
+  ],
+  typescript: [
+    { re: /\binterface\s+([A-Za-z_$][\w$]*)/, kind: 'interface' },
+    { re: /\btype\s+([A-Za-z_$][\w$]*)\s*=/, kind: 'type' },
+    { re: /\bfunction\s+([A-Za-z_$][\w$]*)/, kind: 'func' },
+    { re: /\bclass\s+([A-Za-z_$][\w$]*)/, kind: 'class' },
+    { re: /\bconst\s+([A-Za-z_$][\w$]*)\s*=\s*(?:async\s*)?\(?[^=]*\)?\s*=>/, kind: 'func' }
+  ],
+  python: [
+    { re: /\bdef\s+([A-Za-z_]\w*)/, kind: 'func' },
+    { re: /\bclass\s+([A-Za-z_]\w*)/, kind: 'class' }
+  ],
+  go: [
+    { re: /\bfunc\s+(?:\([^)]*\)\s*)?([A-Za-z_]\w*)/, kind: 'func' },
+    { re: /\btype\s+([A-Za-z_]\w*)\s+struct/, kind: 'struct' }
+  ],
+  kotlin: [
+    { re: /\bfun\s+([A-Za-z_]\w*)/, kind: 'func' },
+    { re: /\bclass\s+([A-Za-z_]\w*)/, kind: 'class' }
+  ],
+  java: [
+    { re: /\bclass\s+([A-Za-z_]\w*)/, kind: 'class' },
+    { re: /\binterface\s+([A-Za-z_]\w*)/, kind: 'interface' }
+  ]
+};
+const FALLBACK_PATTERNS = [
+  { re: /\bfunction\s+([A-Za-z_]\w*)/, kind: 'func' },
+  { re: /\bdef\s+([A-Za-z_]\w*)/, kind: 'func' },
+  { re: /\bfunc\s+([A-Za-z_]\w*)/, kind: 'func' },
+  { re: /\bclass\s+([A-Za-z_]\w*)/, kind: 'class' },
+  { re: /\bstruct\s+([A-Za-z_]\w*)/, kind: 'struct' },
+  { re: /\benum\s+([A-Za-z_]\w*)/, kind: 'enum' },
+  { re: /\binterface\s+([A-Za-z_]\w*)/, kind: 'interface' }
+];
+
+function extractSymbols(lines, lang) {
+  const patterns = SYMBOL_PATTERNS[lang] || FALLBACK_PATTERNS;
+  const out = [];
+  lines.forEach((line, idx) => {
+    for (const p of patterns) {
+      const m = line.match(p.re);
+      if (m) { out.push({ name: p.nameOverride || m[1], kind: p.kind, line: idx }); break; }
+    }
+  });
+  return out;
+}
+
 const state = {
   token: '', owner: '', repo: '', branch: '',
-  path: [], tree: null, view: 'setup',
-  fileLines: [], currentPath: '',
+  view: 'setup', // setup | repos | workspace
+  tree: null, nestedTree: null,
+  expandedDirs: new Set(),
+  currentPath: '', fileLines: [],
   selection: { start: null, end: null },
-  recents: [], filterQuery: '', wrap: false
+  recents: [], filterQuery: '', wrap: false,
+  sidebarOpen: false,
+  symbolIndex: {}, // path -> symbols[]
+  lastOwnerInput: ''
 };
 
 const $ = (sel) => document.querySelector(sel);
@@ -353,17 +407,18 @@ function toast(msg) {
   toast._t = setTimeout(() => t.classList.remove('show'), 1600);
 }
 
-function ghHeaders() {
-  const h = { 'Accept': 'application/vnd.github+json' };
+function ghHeaders(extra) {
+  const h = Object.assign({ 'Accept': 'application/vnd.github+json' }, extra || {});
   if (state.token) h['Authorization'] = 'Bearer ' + state.token;
   return h;
 }
 
-async function gh(path) {
-  const res = await fetch('https://api.github.com' + path, { headers: ghHeaders() });
+async function gh(path, extraHeaders) {
+  const res = await fetch('https://api.github.com' + path, { headers: ghHeaders(extraHeaders) });
   if (!res.ok) {
     if (res.status === 403) throw new Error('Rate limited or blocked. Add a token to raise your limit.');
     if (res.status === 404) throw new Error('Not found. Check the owner/repo name.');
+    if (res.status === 422) throw new Error('Search index not ready for this repo yet.');
     throw new Error('GitHub API error (' + res.status + ')');
   }
   return res.json();
@@ -375,7 +430,46 @@ function b64DecodeUnicode(str) {
   );
 }
 
-/* ---------------- Header ---------------- */
+/* ---------------- Nested tree ---------------- */
+
+function buildNestedTree(blobs) {
+  const root = { type: 'dir', name: '', path: '', children: {} };
+  blobs.forEach(b => {
+    const parts = b.path.split('/');
+    let node = root;
+    let acc = '';
+    parts.forEach((part, i) => {
+      acc = acc ? acc + '/' + part : part;
+      const isFile = i === parts.length - 1;
+      if (isFile) {
+        node.children[part] = { type: 'file', name: part, path: acc, sha: b.sha };
+      } else {
+        if (!node.children[part]) node.children[part] = { type: 'dir', name: part, path: acc, children: {} };
+        node = node.children[part];
+      }
+    });
+  });
+  return root;
+}
+
+function sortedChildren(node) {
+  return Object.values(node.children).sort((a, b) =>
+    a.type === b.type ? a.name.localeCompare(b.name) : (a.type === 'dir' ? -1 : 1)
+  );
+}
+
+function ancestorPaths(path) {
+  const parts = path.split('/');
+  const out = [];
+  let acc = '';
+  for (let i = 0; i < parts.length - 1; i++) {
+    acc = acc ? acc + '/' + parts[i] : parts[i];
+    out.push(acc);
+  }
+  return out;
+}
+
+/* ---------------- Header / nav ---------------- */
 
 function render() {
   renderHeader();
@@ -389,172 +483,130 @@ function renderHeader() {
     headerEl.innerHTML = `
       <div class="largeTitleWrap">
         <div class="largeTitle">Reader</div>
-        <div class="largeSubtitle">Browse and copy your code, iOS-style</div>
+        <div class="largeSubtitle">Browse and understand your code, iOS-style</div>
       </div>`;
     return;
   }
 
+  if (state.view === 'repos') {
+    const nav = document.createElement('div');
+    nav.className = 'navRow';
+    nav.innerHTML = `
+      <div class="navSide"><button class="navBtn" id="backBtn">${icon('chevronLeft', 22)}<span class="label">Reader</span></button></div>
+      <div class="navTitle">${state.owner}</div>
+      <div class="navSide trailing"></div>`;
+    headerEl.appendChild(nav);
+    $('#backBtn').onclick = () => { state.view = 'setup'; render(); };
+    const search = buildInlineSearch('Filter repos', state.filterQuery, v => { state.filterQuery = v; renderMain(); });
+    headerEl.appendChild(search);
+    return;
+  }
+
+  // workspace
   const nav = document.createElement('div');
   nav.className = 'navRow';
 
-  // leading
   const leading = document.createElement('div');
   leading.className = 'navSide';
-  if (state.view !== 'repos' || true) {
-    const back = document.createElement('button');
-    back.className = 'navBtn';
-    back.innerHTML = icon('chevronLeft', 22) + '<span class="label">' + backLabel() + '</span>';
-    back.onclick = goBack;
-    leading.appendChild(back);
-  }
+  const hamburger = document.createElement('button');
+  hamburger.className = 'navBtn';
+  hamburger.innerHTML = icon('sidebar', 21);
+  hamburger.onclick = toggleSidebar;
+  leading.appendChild(hamburger);
   nav.appendChild(leading);
 
   const title = document.createElement('div');
   title.className = 'navTitle';
-  title.textContent = navTitle();
+  title.textContent = state.currentPath ? state.currentPath.split('/').pop() : (state.owner + '/' + state.repo);
   nav.appendChild(title);
 
   const trailing = document.createElement('div');
   trailing.className = 'navSide trailing';
-  if (state.view === 'repos' || state.view === 'tree') {
-    const gear = document.createElement('button');
-    gear.className = 'navBtn';
-    gear.innerHTML = icon('gear', 21);
-    gear.onclick = () => { state.view = 'setup'; render(); };
-    trailing.appendChild(gear);
-  }
-  if (state.view === 'file') {
-    const copyBtn = document.createElement('button');
-    copyBtn.className = 'navBtn';
-    copyBtn.innerHTML = icon('copy', 20);
-    copyBtn.onclick = () => copyText(state.fileLines.join('\n'), 'File copied');
-    trailing.appendChild(copyBtn);
-  }
+  const searchBtn = document.createElement('button');
+  searchBtn.className = 'navBtn';
+  searchBtn.innerHTML = icon('search', 19);
+  searchBtn.onclick = openSearchSheet;
+  trailing.appendChild(searchBtn);
+
+  const symBtn = document.createElement('button');
+  symBtn.className = 'navBtn';
+  symBtn.innerHTML = icon('braces', 19);
+  symBtn.disabled = !state.currentPath;
+  symBtn.onclick = openSymbolsSheet;
+  trailing.appendChild(symBtn);
+
+  const copyBtn = document.createElement('button');
+  copyBtn.className = 'navBtn';
+  copyBtn.innerHTML = icon('copy', 19);
+  copyBtn.disabled = !state.currentPath;
+  copyBtn.onclick = () => copyText(state.fileLines.join('\n'), 'File copied');
+  trailing.appendChild(copyBtn);
+
   nav.appendChild(trailing);
   headerEl.appendChild(nav);
 
-  if (state.view === 'repos' || state.view === 'tree') {
-    headerEl.appendChild(buildPathBar());
-    headerEl.appendChild(buildQuickSwitch());
-    headerEl.appendChild(buildSearchField(state.view === 'repos' ? 'Filter repos' : 'Go to file'));
-  }
-
-  if (state.view === 'file') {
+  if (state.currentPath) {
+    headerEl.appendChild(buildBreadcrumb());
     headerEl.appendChild(buildSubToolbar());
   }
 }
 
-function backLabel() {
-  if (state.view === 'repos') return 'Reader';
-  if (state.view === 'tree') {
-    if (state.path.length === 0) return state.owner;
-    const parent = state.path.slice(0, -1);
-    return parent.length ? parent[parent.length - 1] : state.repo;
-  }
-  if (state.view === 'file') return state.path.length ? state.path[state.path.length - 1] : state.repo;
-  return 'Back';
-}
-
-function navTitle() {
-  if (state.view === 'repos') return state.owner;
-  if (state.view === 'tree') return state.path.length ? state.path[state.path.length - 1] : state.repo;
-  if (state.view === 'file') return state.currentPath.split('/').pop();
-  return '';
-}
-
-function goBack() {
-  if (state.view === 'repos') { state.view = 'setup'; render(); return; }
-  if (state.view === 'tree') {
-    if (state.path.length === 0) { state.view = 'repos'; state.filterQuery = ''; render(); return; }
-    state.path = state.path.slice(0, -1);
-    render(); return;
-  }
-  if (state.view === 'file') {
-    state.view = 'tree'; render(); return;
-  }
-}
-
-function buildPathBar() {
-  const bar = document.createElement('div');
-  bar.className = 'pathBar';
-  const home = document.createElement('button');
-  home.textContent = state.owner + '/' + state.repo;
-  home.onclick = () => { state.path = []; state.view = 'tree'; render(); };
-  bar.appendChild(home);
-  state.path.forEach((seg, i) => {
-    const chev = document.createElement('span');
-    chev.className = 'chev';
-    chev.innerHTML = icon('chevronRight', 13);
-    bar.appendChild(chev);
-    const b = document.createElement('button');
-    b.textContent = seg;
-    b.onclick = () => { state.path = state.path.slice(0, i + 1); state.view = 'tree'; render(); };
-    bar.appendChild(b);
-  });
-  return bar;
-}
-
-function buildQuickSwitch() {
-  const el = document.createElement('div');
-  el.className = 'quickSwitch';
-  if (state.recents.length < 2) return el;
-  state.recents.forEach(r => {
-    const chip = document.createElement('span');
-    chip.className = 'chip' + (r.owner === state.owner && r.repo === state.repo ? ' active' : '');
-    chip.textContent = r.repo;
-    chip.onclick = () => {
-      if (r.owner === state.owner && r.repo === state.repo) return;
-      openRepo(r.owner, r.repo);
-    };
-    el.appendChild(chip);
-  });
-  return el;
-}
-
-function buildSearchField(placeholder) {
+function buildInlineSearch(placeholder, value, onInput) {
   const wrap = document.createElement('div');
-  wrap.className = 'searchWrap';
+  wrap.style.cssText = 'padding:0 16px 10px;';
   const field = document.createElement('div');
-  field.className = 'searchField';
+  field.className = 'sheetSearchField';
+  field.style.marginBottom = '0';
   field.innerHTML = icon('search', 17);
   const input = document.createElement('input');
   input.placeholder = placeholder;
-  input.value = state.filterQuery || '';
-  input.oninput = (e) => { state.filterQuery = e.target.value; renderMain(); };
+  input.value = value || '';
+  input.oninput = (e) => onInput(e.target.value);
   field.appendChild(input);
   wrap.appendChild(field);
   return wrap;
 }
 
+function buildBreadcrumb() {
+  const bar = document.createElement('div');
+  bar.className = 'breadcrumbLine';
+  const parts = state.currentPath.split('/');
+  const segs = [state.repo, ...parts];
+  bar.innerHTML = segs.map((s, i) =>
+    (i > 0 ? '<span class="sep">›</span>' : '') + `<span class="seg" data-i="${i}">${s}</span>`
+  ).join('');
+  bar.querySelectorAll('.seg').forEach(el => {
+    el.onclick = () => {
+      const i = +el.dataset.i;
+      if (i === 0) return; // repo root, nothing to reveal beyond opening sidebar
+      const dirPath = parts.slice(0, i).join('/');
+      revealInSidebar(dirPath);
+      openSidebarMobile();
+    };
+  });
+  return bar;
+}
+
 function buildSubToolbar() {
   const bar = document.createElement('div');
   bar.className = 'subToolbar';
-
   const stepper = document.createElement('div');
   stepper.className = 'iosStepper';
-  const minus = document.createElement('button');
-  minus.textContent = 'A−';
-  minus.onclick = () => adjustFont(-1);
-  const div = document.createElement('div');
-  div.className = 'div';
-  const plus = document.createElement('button');
-  plus.textContent = 'A+';
-  plus.onclick = () => adjustFont(1);
+  const minus = document.createElement('button'); minus.textContent = 'A−'; minus.onclick = () => adjustFont(-1);
+  const div = document.createElement('div'); div.className = 'div';
+  const plus = document.createElement('button'); plus.textContent = 'A+'; plus.onclick = () => adjustFont(1);
   stepper.appendChild(minus); stepper.appendChild(div); stepper.appendChild(plus);
   bar.appendChild(stepper);
 
   const grp = document.createElement('div');
   grp.className = 'grp';
-  const swLabel = document.createElement('span');
-  swLabel.className = 'swLabel';
-  swLabel.textContent = 'Wrap';
+  const swLabel = document.createElement('span'); swLabel.className = 'swLabel'; swLabel.textContent = 'Wrap';
   const sw = document.createElement('button');
   sw.className = 'iosSwitch' + (state.wrap ? ' on' : '');
   sw.innerHTML = '<span class="knob"></span>';
   sw.onclick = () => { state.wrap = !state.wrap; render(); };
   grp.appendChild(swLabel); grp.appendChild(sw);
   bar.appendChild(grp);
-
   return bar;
 }
 
@@ -564,15 +616,32 @@ function adjustFont(delta) {
   document.documentElement.style.setProperty('--code-size', fontSize + 'px');
 }
 
+function toggleSidebar() {
+  state.sidebarOpen = !state.sidebarOpen;
+  const sb = $('#sidebarEl'), scrim = $('#sidebarScrim');
+  if (sb) sb.classList.toggle('open', state.sidebarOpen);
+  if (scrim) scrim.classList.toggle('show', state.sidebarOpen);
+}
+function openSidebarMobile() {
+  state.sidebarOpen = true;
+  const sb = $('#sidebarEl'), scrim = $('#sidebarScrim');
+  if (sb) sb.classList.add('open');
+  if (scrim) scrim.classList.add('show');
+}
+function closeSidebarMobile() {
+  state.sidebarOpen = false;
+  const sb = $('#sidebarEl'), scrim = $('#sidebarScrim');
+  if (sb) sb.classList.remove('open');
+  if (scrim) scrim.classList.remove('show');
+}
+
 /* ---------------- Main views ---------------- */
 
 function renderMain() {
   mainEl.innerHTML = '';
-  mainEl.scrollTop = 0;
   if (state.view === 'setup') return renderSetup();
   if (state.view === 'repos') return renderRepos();
-  if (state.view === 'tree') return renderTree();
-  if (state.view === 'file') return renderFile();
+  if (state.view === 'workspace') return renderWorkspace();
 }
 
 function renderSetup() {
@@ -580,19 +649,13 @@ function renderSetup() {
   wrap.className = 'setupWrap';
   wrap.innerHTML = `
     <div class="groupLabel">Account</div>
-    <div class="group">
-      <div class="cell"><input id="ownerInput" placeholder="GitHub username or org" autocapitalize="off" autocorrect="off" /></div>
-    </div>
+    <div class="group"><div class="cell"><input id="ownerInput" placeholder="GitHub username or org" autocapitalize="off" autocorrect="off" /></div></div>
     <div class="groupLabel">Token</div>
-    <div class="group">
-      <div class="cell"><input id="tokenInput" type="password" placeholder="Personal access token — optional" autocapitalize="off" autocorrect="off" /></div>
-    </div>
-    <div class="cellHint">Kept in this tab's memory only — never saved, never sent anywhere but api.github.com. Needed for private repos. Create one at github.com/settings/tokens with the "repo" scope.</div>
+    <div class="group"><div class="cell"><input id="tokenInput" type="password" placeholder="Personal access token — optional" autocapitalize="off" autocorrect="off" /></div></div>
+    <div class="cellHint">Kept in this tab's memory only — never saved, never sent anywhere but api.github.com. Needed for private repos and for repo-wide symbol search.</div>
     <button class="fillBtn" id="loadReposBtn">Load repos</button>
     <div class="groupLabel">Or open directly</div>
-    <div class="group">
-      <div class="cell"><input id="directRepoInput" placeholder="owner/repo" autocapitalize="off" autocorrect="off" /></div>
-    </div>
+    <div class="group"><div class="cell"><input id="directRepoInput" placeholder="owner/repo" autocapitalize="off" autocorrect="off" /></div></div>
     <button class="fillBtn" id="openDirectBtn" style="background:var(--gray5);">Open repo</button>
     <div id="recentsWrap"></div>
   `;
@@ -676,7 +739,11 @@ async function openRepo(owner, repo, branch) {
     const treeRes = await gh(`/repos/${owner}/${repo}/git/trees/${b}?recursive=1`);
     state.owner = owner; state.repo = repo; state.branch = b;
     state.tree = treeRes.tree.filter(t => t.type === 'blob');
-    state.path = []; state.view = 'tree'; state.filterQuery = '';
+    state.nestedTree = buildNestedTree(state.tree);
+    state.expandedDirs = new Set();
+    state.currentPath = ''; state.fileLines = [];
+    state.symbolIndex = {};
+    state.view = 'workspace'; state.filterQuery = '';
     if (!state.recents.find(r => r.owner === owner && r.repo === repo)) {
       state.recents.unshift({ owner, repo });
       state.recents = state.recents.slice(0, 6);
@@ -687,82 +754,103 @@ async function openRepo(owner, repo, branch) {
   }
 }
 
-function renderTree() {
-  const q = (state.filterQuery || '').toLowerCase();
-  const wrap = document.createElement('div');
+function renderWorkspace() {
+  const ws = document.createElement('div');
+  ws.className = 'workspace';
 
-  if (q) {
-    const matches = state.tree.filter(t => t.path.toLowerCase().includes(q)).slice(0, 60);
-    wrap.innerHTML = `<div class="groupLabel">${matches.length} match${matches.length === 1 ? '' : 'es'}</div>`;
-    const group = document.createElement('div');
-    group.className = 'listGroup';
-    matches.forEach(t => {
-      const row = document.createElement('div');
-      row.className = 'row file';
-      row.innerHTML = `<span class="glyph">${icon('doc', 17)}</span><span class="name">${t.path}</span><span class="chev">${icon('chevronRight', 15)}</span>`;
-      row.onclick = () => openFile(t.path);
-      group.appendChild(row);
-    });
-    wrap.appendChild(group);
-    mainEl.appendChild(wrap);
-    return;
-  }
+  const scrim = document.createElement('div');
+  scrim.className = 'sidebarScrim' + (state.sidebarOpen ? ' show' : '');
+  scrim.id = 'sidebarScrim';
+  scrim.onclick = closeSidebarMobile;
 
-  const prefix = state.path.length ? state.path.join('/') + '/' : '';
-  const seen = new Set();
-  const entries = [];
-  state.tree.forEach(t => {
-    if (!t.path.startsWith(prefix)) return;
-    const rest = t.path.slice(prefix.length);
-    if (!rest) return;
-    const slash = rest.indexOf('/');
-    if (slash === -1) entries.push({ type: 'file', name: rest, full: t.path });
-    else {
-      const dirName = rest.slice(0, slash);
-      if (!seen.has(dirName)) { seen.add(dirName); entries.push({ type: 'dir', name: dirName, full: prefix + dirName }); }
-    }
+  const sidebar = document.createElement('div');
+  sidebar.className = 'sidebar' + (state.sidebarOpen ? ' open' : '');
+  sidebar.id = 'sidebarEl';
+
+  const sbHeader = document.createElement('div');
+  sbHeader.className = 'sidebarHeader';
+  sbHeader.innerHTML = `<div class="sidebarTitle"><span class="name">${state.repo}</span><button class="navBtn" id="settingsBtn" style="padding:4px;">${icon('gear', 18)}</button></div>`;
+  const chips = document.createElement('div');
+  chips.className = 'repoChips';
+  state.recents.forEach(r => {
+    const chip = document.createElement('span');
+    chip.className = 'chip' + (r.owner === state.owner && r.repo === state.repo ? ' active' : '');
+    chip.textContent = r.repo;
+    chip.onclick = () => { if (!(r.owner === state.owner && r.repo === state.repo)) openRepo(r.owner, r.repo); };
+    chips.appendChild(chip);
   });
-  entries.sort((a, b) => (a.type === b.type ? a.name.localeCompare(b.name) : a.type === 'dir' ? -1 : 1));
+  if (state.recents.length > 1) sbHeader.appendChild(chips);
+  sidebar.appendChild(sbHeader);
 
-  if (!entries.length) {
-    wrap.innerHTML = '<div class="emptyState">Empty folder.</div>';
+  const treeWrap = document.createElement('div');
+  treeWrap.style.padding = '6px 0 24px';
+  renderTreeChildren(state.nestedTree, treeWrap, 0);
+  sidebar.appendChild(treeWrap);
+
+  const content = document.createElement('div');
+  content.className = 'content';
+  const contentScroll = document.createElement('div');
+  contentScroll.className = 'contentScroll';
+  contentScroll.id = 'contentScroll';
+  if (!state.currentPath) {
+    contentScroll.innerHTML = `<div class="emptyState">${icon('doc', 34)}<div>Tap a file in the sidebar to view it.</div></div>`;
   } else {
-    const group = document.createElement('div');
-    group.className = 'listGroup';
-    entries.forEach(e => {
-      const row = document.createElement('div');
-      row.className = 'row ' + (e.type === 'dir' ? 'dir' : 'file');
-      row.innerHTML = `<span class="glyph">${icon(e.type === 'dir' ? 'folder' : 'doc', e.type === 'dir' ? 18 : 17)}</span><span class="name">${e.name}</span><span class="chev">${icon('chevronRight', 15)}</span>`;
-      row.onclick = () => {
-        if (e.type === 'dir') { state.path = e.full.split('/'); render(); }
-        else openFile(e.full);
-      };
-      group.appendChild(row);
-    });
-    wrap.appendChild(group);
+    renderFileInto(contentScroll);
   }
-  mainEl.appendChild(wrap);
+  content.appendChild(contentScroll);
+
+  ws.appendChild(scrim);
+  ws.appendChild(sidebar);
+  ws.appendChild(content);
+  mainEl.appendChild(ws);
+
+  setTimeout(() => { const b = $('#settingsBtn'); if (b) b.onclick = () => { state.view = 'setup'; render(); }; }, 0);
 }
 
-async function openFile(path) {
-  mainEl.innerHTML = '<div class="spinner">Loading ' + path + '…</div>';
-  try {
-    const entry = state.tree.find(t => t.path === path);
-    if (!entry) throw new Error('File not found in the loaded tree.');
-    const blob = await gh(`/repos/${state.owner}/${state.repo}/git/blobs/${entry.sha}`);
-    const text = blob.encoding === 'base64' ? b64DecodeUnicode(blob.content.replace(/\n/g, '')) : blob.content;
-    state.currentPath = path;
-    state.fileLines = text.split('\n');
-    state.path = path.split('/').slice(0, -1);
-    state.selection = { start: null, end: null };
-    state.view = 'file';
-    render();
-  } catch (e) {
-    const msg = e.message === 'Failed to fetch'
-      ? 'Network request was blocked. Check your connection — if this is a private repo, make sure your token is entered on the setup screen.'
-      : e.message;
-    mainEl.innerHTML = `<div class="errorBox">${msg}</div>`;
-  }
+function renderTreeChildren(node, container, depth) {
+  sortedChildren(node).forEach(child => {
+    const nodeWrap = document.createElement('div');
+    nodeWrap.className = 'treeNode';
+
+    const row = document.createElement('div');
+    row.className = 'treeRow ' + (child.type === 'dir' ? 'dir' : 'file') + (child.type === 'file' && child.path === state.currentPath ? ' activeFile' : '');
+    row.style.paddingLeft = (10 + depth * 16) + 'px';
+
+    if (child.type === 'dir') {
+      const expanded = state.expandedDirs.has(child.path);
+      row.innerHTML = `<span class="disclosure${expanded ? ' expanded' : ''}">${icon('chevronRight', 12)}</span><span class="glyph">${icon(expanded ? 'folderOpen' : 'folder', 15)}</span><span class="name">${child.name}</span>`;
+      row.onclick = () => {
+        if (state.expandedDirs.has(child.path)) state.expandedDirs.delete(child.path);
+        else state.expandedDirs.add(child.path);
+        rerenderSidebarTree();
+      };
+      nodeWrap.appendChild(row);
+      const childrenWrap = document.createElement('div');
+      childrenWrap.className = 'treeChildren';
+      if (expanded) renderTreeChildren(child, childrenWrap, depth + 1);
+      else childrenWrap.style.display = 'none';
+      nodeWrap.appendChild(childrenWrap);
+    } else {
+      row.innerHTML = `<span class="disclosure"></span><span class="glyph">${icon('doc', 14)}</span><span class="name">${child.name}</span>`;
+      row.onclick = () => openFile(child.path);
+      nodeWrap.appendChild(row);
+    }
+    container.appendChild(nodeWrap);
+  });
+}
+
+function rerenderSidebarTree() {
+  const sidebar = $('#sidebarEl');
+  if (!sidebar) return;
+  const treeWrap = sidebar.children[1];
+  treeWrap.innerHTML = '';
+  renderTreeChildren(state.nestedTree, treeWrap, 0);
+}
+
+function revealInSidebar(dirPath) {
+  ancestorPaths(dirPath + '/x').forEach(p => state.expandedDirs.add(p));
+  state.expandedDirs.add(dirPath);
+  rerenderSidebarTree();
 }
 
 function langFromPath(path) {
@@ -776,7 +864,41 @@ function langFromPath(path) {
   return map[ext] || 'plaintext';
 }
 
-function renderFile() {
+async function openFile(path) {
+  closeSidebarMobile();
+  const cs = $('#contentScroll');
+  if (cs) cs.innerHTML = '<div class="spinner">Loading ' + path + '…</div>';
+  try {
+    const entry = state.tree.find(t => t.path === path);
+    if (!entry) throw new Error('File not found in the loaded tree.');
+    const blob = await gh(`/repos/${state.owner}/${state.repo}/git/blobs/${entry.sha}`);
+    const text = blob.encoding === 'base64' ? b64DecodeUnicode(blob.content.replace(/\n/g, '')) : blob.content;
+    state.currentPath = path;
+    state.fileLines = text.split('\n');
+    state.selection = { start: null, end: null };
+    const lang = langFromPath(path);
+    const symbols = extractSymbols(state.fileLines, lang);
+    state.symbolIndex[path] = symbols;
+    ancestorPaths(path).forEach(p => state.expandedDirs.add(p));
+    render();
+    return true;
+  } catch (e) {
+    const msg = e.message === 'Failed to fetch'
+      ? 'Network request was blocked. Check your connection — if this is a private repo, make sure your token is entered on the setup screen.'
+      : e.message;
+    if (cs) cs.innerHTML = `<div class="errorBox">${msg}</div>`;
+    return false;
+  }
+}
+
+async function openFileAndFind(path, term) {
+  const ok = await openFile(path);
+  if (!ok) return;
+  const idx = state.fileLines.findIndex(l => l.toLowerCase().includes(term.toLowerCase()));
+  if (idx >= 0) setTimeout(() => scrollToLine(idx), 60);
+}
+
+function renderFileInto(container) {
   const scrollWrap = document.createElement('div');
   scrollWrap.className = 'codeScroll' + (state.wrap ? ' wrap' : '');
   const pre = document.createElement('pre');
@@ -802,75 +924,19 @@ function renderFile() {
   });
 
   scrollWrap.appendChild(pre);
-  mainEl.appendChild(scrollWrap);
+  container.appendChild(scrollWrap);
 
   try { pre.querySelectorAll('code').forEach(el => hljs.highlightElement(el)); } catch (e) {}
   updateSelectionUI();
-
-  pre.addEventListener('dblclick', onWordDblClick);
 }
 
-/* ---------------- Find references (symbol search) ---------------- */
-
-function onWordDblClick() {
-  const sel = window.getSelection();
-  const word = sel && sel.toString().trim();
-  if (!word || /\s/.test(word) || word.length < 2) return;
-  findReferences(word);
+function scrollToLine(idx) {
+  const row = document.querySelector('.lineRow[data-line="' + idx + '"]');
+  if (!row) return;
+  row.scrollIntoView({ block: 'center' });
+  row.classList.add('flash');
+  setTimeout(() => row.classList.remove('flash'), 1150);
 }
-
-async function findReferences(word) {
-  if (!state.token) { toast('Add a token in Settings to search code'); return; }
-  toast('Searching “' + word + '”…');
-  try {
-    const q = encodeURIComponent(`${word} in:file repo:${state.owner}/${state.repo}`);
-    const res = await gh(`/search/code?q=${q}&per_page=50`);
-    showReferenceResults(word, res.items || []);
-  } catch (e) {
-    toast(e.message || 'Search failed');
-  }
-}
-
-function showReferenceResults(word, items) {
-  const sheet = $('#refSheet');
-  const scrim = $('#refScrim');
-  const list = $('#refList');
-  $('#refLabel').textContent = items.length
-    ? `${items.length} file${items.length === 1 ? '' : 's'} matching “${word}”`
-    : `No matches for “${word}”`;
-
-  list.innerHTML = '';
-  const group = document.createElement('div');
-  group.className = 'listGroup';
-  items.forEach(item => {
-    const row = document.createElement('div');
-    row.className = 'row file';
-    row.innerHTML = `<span class="glyph">${icon('doc', 17)}</span><span class="name">${item.path}</span><span class="chev">${icon('chevronRight', 15)}</span>`;
-    row.onclick = () => { closeRefSheet(); openFileAndJump(item.path, word); };
-    group.appendChild(row);
-  });
-  if (items.length) list.appendChild(group);
-
-  sheet.classList.add('show');
-  scrim.classList.add('show');
-}
-
-function closeRefSheet() {
-  $('#refSheet').classList.remove('show');
-  $('#refScrim').classList.remove('show');
-}
-
-async function openFileAndJump(path, word) {
-  await openFile(path);
-  const idx = state.fileLines.findIndex(l => l.includes(word));
-  if (idx === -1) return;
-  toggleLineSelection(idx);
-  const rowEl = document.querySelector(`.lineRow[data-line="${idx}"]`);
-  if (rowEl) rowEl.scrollIntoView({ block: 'center' });
-}
-
-$('#refScrim').onclick = closeRefSheet;
-$('#btnCloseRef').onclick = closeRefSheet;
 
 function toggleLineSelection(idx) {
   const sel = state.selection;
@@ -883,21 +949,6 @@ function toggleLineSelection(idx) {
     r.classList.toggle('selected', sel.start !== null && i >= sel.start && i <= sel.end);
   });
   updateSelectionUI();
-}
-
-function updateSelectionUI() {
-  const sheet = $('#sheet');
-  const scrim = $('#sheetScrim');
-  const sel = state.selection;
-  if (sel.start === null) {
-    sheet.classList.remove('show');
-    scrim.classList.remove('show');
-    return;
-  }
-  sheet.classList.add('show');
-  scrim.classList.add('show');
-  const count = sel.end - sel.start + 1;
-  $('#sheetLabel').textContent = count === 1 ? `Line ${sel.start + 1}` : `Lines ${sel.start + 1}–${sel.end + 1} · ${count} lines`;
 }
 
 function selectedText() {
@@ -918,36 +969,185 @@ function copyText(text, msg) {
   });
 }
 
-function clearSelection() {
+/* ---------------- Generic bottom sheet ---------------- */
+
+function showSheet(innerHTML) {
+  const sheet = $('#sheet');
+  sheet.innerHTML = '<div class="sheetHandle"></div><div class="sheetInner">' + innerHTML + '</div>';
+  sheet.classList.add('show');
+  $('#sheetScrim').classList.add('show');
+}
+function hideSheet() {
+  $('#sheet').classList.remove('show');
+  $('#sheetScrim').classList.remove('show');
+}
+$('#sheetScrim').onclick = () => { hideSheet(); clearSelectionQuiet(); };
+
+function clearSelectionQuiet() {
+  if (state.selection.start === null) return;
   state.selection = { start: null, end: null };
   document.querySelectorAll('.lineRow.selected').forEach(r => r.classList.remove('selected'));
-  updateSelectionUI();
 }
 
-$('#sheetScrim').onclick = clearSelection;
-$('#btnClearSel').onclick = clearSelection;
-
-$('#btnCopySel').onclick = () => {
-  const text = selectedText();
-  if (!text) return;
-  copyText(text, 'Selection copied');
-};
-
-$('#btnCopyClaude').onclick = () => {
+function updateSelectionUI() {
   const sel = state.selection;
-  const text = selectedText();
-  if (!text) return;
-  const rangeLabel = sel.start === sel.end ? `line ${sel.start + 1}` : `lines ${sel.start + 1}-${sel.end + 1}`;
-  const prompt = [
-    `File: ${state.owner}/${state.repo}/${state.currentPath} (${rangeLabel})`,
-    '```' + langFromPath(state.currentPath),
-    text,
-    '```',
-    '',
-    'Question: '
-  ].join('\n');
-  copyText(prompt, 'Copied — paste into Claude');
-};
+  if (sel.start === null) { hideSheet(); return; }
+  const count = sel.end - sel.start + 1;
+  const label = count === 1 ? `Line ${sel.start + 1}` : `Lines ${sel.start + 1}–${sel.end + 1} · ${count} lines`;
+  showSheet(`
+    <div class="sheetLabel">${label}</div>
+    <button class="sheetBtn primary" id="btnCopyClaude">Copy for Claude</button>
+    <button class="sheetBtn secondary" id="btnCopySel">Copy</button>
+    <button class="sheetBtn plain" id="btnClearSel">Clear selection</button>
+  `);
+  $('#btnClearSel').onclick = () => { clearSelectionQuiet(); hideSheet(); };
+  $('#btnCopySel').onclick = () => { const t = selectedText(); if (t) copyText(t, 'Selection copied'); };
+  $('#btnCopyClaude').onclick = () => {
+    const sel2 = state.selection;
+    const text = selectedText();
+    if (!text) return;
+    const rangeLabel = sel2.start === sel2.end ? `line ${sel2.start + 1}` : `lines ${sel2.start + 1}-${sel2.end + 1}`;
+    const prompt = [
+      `File: ${state.owner}/${state.repo}/${state.currentPath} (${rangeLabel})`,
+      '```' + langFromPath(state.currentPath), text, '```', '', 'Question: '
+    ].join('\n');
+    copyText(prompt, 'Copied — paste into Claude');
+  };
+}
+
+/* ---------------- Symbols sheet (Xcode-style jump bar) ---------------- */
+
+function openSymbolsSheet() {
+  if (!state.currentPath) return;
+  const symbols = state.symbolIndex[state.currentPath] || [];
+  let rows;
+  if (!symbols.length) {
+    rows = '<div class="searchHint">No functions, classes, or types detected in this file.</div>';
+  } else {
+    rows = symbols.map((s, i) => {
+      const meta = KIND_META[s.kind] || { letter: '?', color: '#8e8e93' };
+      return `<div class="symbolRow" data-i="${i}">
+        <span class="badge" style="background:${meta.color}">${meta.letter}</span>
+        <span class="name">${s.name}</span>
+        <span class="lineNo">L${s.line + 1}</span>
+      </div>`;
+    }).join('');
+  }
+  showSheet(`<div class="sheetTitle">Symbols in ${state.currentPath.split('/').pop()}</div>${rows}`);
+  $('#sheet').querySelectorAll('.symbolRow').forEach(el => {
+    el.onclick = () => {
+      const i = +el.dataset.i;
+      hideSheet();
+      setTimeout(() => scrollToLine(symbols[i].line), 180);
+    };
+  });
+}
+
+/* ---------------- Search sheet (files + cached symbols + repo-wide) ---------------- */
+
+function openSearchSheet() {
+  showSheet(`
+    <div class="sheetSearchField">
+      ${icon('search', 17)}
+      <input id="searchInput" placeholder="Find a file or a function, class, struct…" autocapitalize="off" autocorrect="off" />
+    </div>
+    <div id="searchResults"></div>
+  `);
+  const input = $('#searchInput');
+  input.focus();
+  input.oninput = () => renderSearchResults(input.value.trim());
+  renderSearchResults('');
+}
+
+function renderSearchResults(q) {
+  const box = $('#searchResults');
+  if (!box) return;
+  if (!q) { box.innerHTML = '<div class="searchHint">Type to search files and any functions/classes from files you\'ve already opened. Use "Search whole repo" below for a broader definition search.</div>'; return; }
+  const ql = q.toLowerCase();
+
+  const fileMatches = (state.tree || []).filter(t => t.path.toLowerCase().includes(ql)).slice(0, 12);
+  const symbolMatches = [];
+  Object.keys(state.symbolIndex).forEach(path => {
+    (state.symbolIndex[path] || []).forEach(s => {
+      if (s.name.toLowerCase().includes(ql)) symbolMatches.push({ ...s, path });
+    });
+  });
+
+  let html = '';
+  if (symbolMatches.length) {
+    html += '<div class="sheetSectionLabel">Symbols (from opened files)</div>';
+    symbolMatches.slice(0, 15).forEach((s, i) => {
+      const meta = KIND_META[s.kind] || { letter: '?', color: '#8e8e93' };
+      html += `<div class="symbolRow" data-kind="sym" data-i="${i}">
+        <span class="badge" style="background:${meta.color}">${meta.letter}</span>
+        <span style="flex:1;overflow:hidden;">
+          <span class="name" style="display:block;">${s.name}</span>
+          <span class="path">${s.path}:${s.line + 1}</span>
+        </span>
+      </div>`;
+    });
+  }
+  if (fileMatches.length) {
+    html += '<div class="sheetSectionLabel">Files</div>';
+    fileMatches.forEach((t, i) => {
+      html += `<div class="symbolRow" data-kind="file" data-i="${i}">
+        <span class="badge" style="background:#48484a">${icon('doc', 13)}</span>
+        <span class="name">${t.path}</span>
+      </div>`;
+    });
+  }
+  if (!symbolMatches.length && !fileMatches.length) {
+    html += '<div class="searchHint">No local matches yet.</div>';
+  }
+  html += `<button class="sheetBtn secondary" id="btnRepoSearch" style="margin-top:12px;">Search whole repo for "${q}"</button>`;
+  if (!state.token) html += '<div class="searchHint">Add a token on the setup screen to enable whole-repo search — GitHub\'s code search requires it.</div>';
+
+  box.innerHTML = html;
+
+  box.querySelectorAll('[data-kind="file"]').forEach(el => {
+    el.onclick = () => { hideSheet(); openFile(fileMatches[+el.dataset.i].path); };
+  });
+  box.querySelectorAll('[data-kind="sym"]').forEach(el => {
+    el.onclick = () => {
+      const s = symbolMatches[+el.dataset.i];
+      hideSheet();
+      if (s.path === state.currentPath) scrollToLine(s.line);
+      else openFileAndFind(s.path, s.name);
+    };
+  });
+  const repoBtn = $('#btnRepoSearch');
+  if (repoBtn) repoBtn.onclick = () => runRepoSearch(q);
+}
+
+async function runRepoSearch(q) {
+  const box = $('#searchResults');
+  box.innerHTML += '<div class="searchHint" id="repoSearchStatus">Searching ' + state.owner + '/' + state.repo + '…</div>';
+  try {
+    const query = encodeURIComponent(q + ' repo:' + state.owner + '/' + state.repo);
+    const data = await gh(`/search/code?q=${query}`, { 'Accept': 'application/vnd.github.text-match+json' });
+    const status = $('#repoSearchStatus');
+    if (status) status.remove();
+    const items = (data.items || []).slice(0, 15);
+    if (!items.length) {
+      box.innerHTML += '<div class="searchHint">No matches found in the repo.</div>';
+      return;
+    }
+    let html = '<div class="sheetSectionLabel">Whole-repo matches</div>';
+    items.forEach((item, i) => {
+      html += `<div class="symbolRow" data-repo-i="${i}">
+        <span class="badge" style="background:#48484a">${icon('doc', 13)}</span>
+        <span class="name">${item.path}</span>
+      </div>`;
+    });
+    box.insertAdjacentHTML('beforeend', html);
+    box.querySelectorAll('[data-repo-i]').forEach(el => {
+      el.onclick = () => { const item = items[+el.dataset.repoI]; hideSheet(); openFileAndFind(item.path, q); };
+    });
+  } catch (e) {
+    const status = $('#repoSearchStatus');
+    if (status) status.textContent = e.message;
+  }
+}
 
 render();
 </script>
